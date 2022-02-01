@@ -5,7 +5,7 @@ const express = require('express')
 // const passport = require('passport')
 
 // pull in Mongoose model for examples
-// const Example = require('../models/example')
+const Author = require('../models/author')
 
 // this is a collection of methods that help us detect situations when we need
 // to throw a custom error
@@ -37,6 +37,7 @@ const router = express.Router()
 // INDEX
 // GET /authors
 router.get('/authors', (req, res, next) => {
+	res.send('hello')
 	Author.find()
 		.then(authors => {
 			// `examples` will be an array of Mongoose documents
