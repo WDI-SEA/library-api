@@ -52,10 +52,10 @@ router.get('/authors', (req, res, next) => {
 })
 
 // SHOW
-// GET /examples/5a7db6c74d55bc51bdf39793
+// GET /authors/5a7db6c74d55bc51bdf39793
 router.get('/authors/:id', (req, res, next) => {
 	// req.params.id will be set based on the `:id` in the route
-	Example.findById(req.params.id)
+	Author.findById(req.params.id)
 		.then(handle404)
 		// if `findById` is succesful, respond with 200 and "example" JSON
 		.then(author => res.status(200).json({ author: author.toObject() }))
@@ -66,11 +66,11 @@ router.get('/authors/:id', (req, res, next) => {
 // CREATE
 // POST /authors
 router.post('/authors', (req, res, next) => {
-	// set owner of new example to be current user
-	// req.body.example.owner = req.user.id
+	// set owner of new author to be current user
+	// req.body.author.owner = req.user.id
 
-	Author.create(req.body.example)
-		// respond to succesful `create` with status 201 and JSON of new "example"
+	Author.create(req.body.author)
+		// respond to succesful `create` with status 201 and JSON of new "author"
 		.then(author => {
 			res.status(201).json({author: author.toObject() })
 		})
@@ -81,11 +81,11 @@ router.post('/authors', (req, res, next) => {
 })
 
 // UPDATE
-// PATCH /examples/5a7db6c74d55bc51bdf39793
+// PATCH /authors/5a7db6c74d55bc51bdf39793
 router.patch('/authors/:id', removeBlanks, (req, res, next) => {
 	// if the client attempts to change the `owner` property by including a new
 	// owner, prevent that by deleting that key/value pair
-	// delete req.body.example.owner
+	// delete req.body.author.owner
 
 	Author.findById(req.params.id)
 		.then(handle404)
@@ -95,7 +95,7 @@ router.patch('/authors/:id', removeBlanks, (req, res, next) => {
 			// requireOwnership(req, author)
 
 			// pass the result of Mongoose's `.update` to the next `.then`
-			return author.updateOne(req.body.example)
+			return author.updateOne(req.body.author)
 		})
 		// if that succeeded, return 204 and no JSON
 		.then(() => res.sendStatus(204))
@@ -104,14 +104,11 @@ router.patch('/authors/:id', removeBlanks, (req, res, next) => {
 })
 
 // DESTROY
-// DELETE /examples/5a7db6c74d55bc51bdf39793
+// DELETE /authors/5a7db6c74d55bc51bdf39793
 router.delete('/authors/:id', (req, res, next) => {
 	Author.findById(req.params.id)
 		.then(handle404)
 		.then(author => {
-			// throw an error if current user doesn't own `example`
-			// requireOwnership(req, author)
-			// delete the example ONLY IF the above didn't throw
 			author.deleteOne()
 		})
 		// send back 204 and no content if the deletion succeeded
