@@ -1,1 +1,9 @@
-GET http://localhost:8000/authors
+POST http://localhost:8000/authors
+Content-Type: application/json
+
+{
+    "author": {
+        "first_name": "Mary",
+        "last_name": "Shelley"
+    }
+}
